@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo
+spec:
+  containers:
+    - name: demo
+      image: ubuntu:latest
+      resources:
+        limits:
+          cpu: "500m"
+          memory: "128Mi"
+      command:
+        - "sleep"
+        - "604800"
+      securityContext:
+        allowPrivilegeEscalation: false

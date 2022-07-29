@@ -1,0 +1,47 @@
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: restricted
+  annotations:
+    seccomp.security.alpha.kubernetes.io/allowedProfileNames: "docker/default"
+    apparmor.security.beta.kubernetes.io/allowedProfileNames: "runtime/default"
+    seccomp.security.alpha.kubernetes.io/defaultProfileName: "docker/default"
+    apparmor.security.beta.kubernetes.io/defaultProfileName: "runtime/default"
+spec:
+  privileged: false
+  allowPrivilegeEscalation: false # Prevent privilege escalation
+  requiredDropCapabilities:
+    - ALL
+  volumes: # Allow core volume types
+    - "configMap"
+    - "emptyDir"
+    - "projected"
+    - "secret"
+    - "downwardAPI"
+    # Assume that PVs set up by the cluster admin are safe to use
+    - "persistentVolumeClaim"
+  hostNetwork: false # Prevent access to the host network namespace
+  hostIPC: false # Prevent access to the host IPC namespace
+  hostPID: false # Prevent access to the host PID
+  runAsUser:
+    rule: "MustRunAsNonRoot" # prevent from running as root
+  runAsGroup:
+    rule: "MustRunAs" # controls which primary Group ID container are run with
+    ranges:
+      - max: 1
+        min: 65535
+  seLinux:
+    rule: "RunAsAny" # Any SELinux options can be used
+  supplementalGroups:
+    rule: "MustRunAs" # Allow all except root (UID 0)
+    ranges:
+      - max: 1
+        min: 65535
+  fsGroup:
+    rule: "MustRunAs" # Sets range for group that own Pod volumes
+    ranges:
+      - max: 1
+        min: 65535
+  readOnlyRootFilesystem: true # Force root filesystem to be R/O
+  forbiddenSysctls:
+    - "*" # Forbits any sysctls from being accessible from a pod

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: jump-pod
+spec:
+  terminationGracePeriodSeconds: 1
+  containers:
+    - name: jump-ctr
+      image: nigelpoulton/curl:1.0
+      tty: true
+      stdin: true
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "250m"
+        limits:
+          memory: "128Mi"
+          cpu: "500m"
