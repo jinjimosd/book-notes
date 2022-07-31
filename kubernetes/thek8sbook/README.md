@@ -135,7 +135,7 @@ spec:
   - `.spec`: section is where you define the containers that will run in the Pod.
 ### Command
 ```
-kubectl apply -f TheK8sBook/chapter4/pod.yaml 
+kubectl apply -f chapter4/pod.yaml 
 kubectl get pods
 kubectl get pods --watch
 kubectl get pods -o wide
@@ -144,7 +144,7 @@ kubectl describe pods hello-pod
 kubectl exec hello-pod -- ps aux
 kubectl exec -it hello-pod -- sh
 kubectl logs hello-pod 
-kubectl delete -f TheK8sBook/chapter4/pod.yaml
+kubectl delete -f chapter4/pod.yaml
 ```
 
 ## 5: Kubernetes Deployments
@@ -198,13 +198,13 @@ spec:
 
 ### Command
 ```
-kubectl apply -f TheK8sBook/chapter5/deploy.yaml
+kubectl apply -f chapter5/deploy.yaml
 kubectl get deploy hello-deploy
 kubectl describe deploy hello-deploy
 kubectl get rs
-kubectl apply -f TheK8sBook/chapter5/svc.yaml
+kubectl apply -f chapter5/svc.yaml
 # Update deploy.yaml and apply again
-kubectl apply -f TheK8sBook/chapter5/deploy.yaml
+kubectl apply -f chapter5/deploy.yaml
 kubectl rollout status deployment hello-deploy
 kubectl get deploy hello-deploy
 kubectl rollout history deployment hello-deploy
@@ -260,12 +260,12 @@ spec:
 
 ### Command
 ```
-kubectl apply -f TheK8sBook/chapter6/deploy.yaml
+kubectl apply -f chapter6/deploy.yaml
 kubectl expose deployment web-deploy --name=hello-svc --target-port=8080 --type=NodePort
 kubectl describe svc hello-svc
 kubectl delete svc hello-svc
 
-kubectl apply -f TheK8sBook/chapter6/svc.yaml
+kubectl apply -f chapter6/svc.yaml
 kubectl get svc hello-svc
 kubectl describe svc hello-svc
 kubectl get ep hello-svc
@@ -275,7 +275,6 @@ Kubectl describe ep hello-svc
 ## 7: Service discovery
 ### Chapter summary
 - **Service registration**
-- A few important things to note about this in Kubernetes:
 ![Service registration](resources/images/figure7.1.png)
   - Kubernetes uses an internal DNS service as its service registry
   - Services register with DNS
@@ -298,7 +297,7 @@ Kubectl describe ep hello-svc
 
 ### Command
 ```
-kubectl apply -f TheK8sBook/chapter7/sd-example.yaml
+kubectl apply -f chapter7/sd-example.yaml
 kubectl get all -n dev
 kubectl get all -n prod
 kubectl exec -it jump -n dev -- bash
@@ -394,9 +393,9 @@ spec:
 
 ### Command
 ```
-kubectl apply -f TheK8sBook/chapter8/rook-ceph-sc.yaml
-kubectl apply -f TheK8sBook/chapter8/rook-ceph-pvc.yaml
-kubectl apply -f TheK8sBook/chapter8/rook-ceph-pod.yaml
+kubectl apply -f chapter8/rook-ceph-sc.yaml
+kubectl apply -f chapter8/rook-ceph-pvc.yaml
+kubectl apply -f chapter8/rook-ceph-pod.yaml
 kubectl exec -it class-pod --bash
 exit
 kubectl get sc
@@ -431,11 +430,11 @@ data:
 ```
 kubectl create configmap testmap1 --from-literal shortname=msb.com --from-literal longname=magicsanbox.com
 kubectl describe cm testmap1
-kubectl create cm testmap2 --from-file TheK8sBook/chapter9/cmfile.txt
+kubectl create cm testmap2 --from-file chapter9/cmfile.txt
 kubectl describe cm testmap2
-kubectl create cm testmap2 --from-file TheK8sBook/chapter9/multimap.yaml
+kubectl create cm testmap2 --from-file chapter9/multimap.yaml
 kubectl get cm multimap -o yaml
-kubectl create cm testmap2 --from-file TheK8sBook/chapter9/envpod.yaml
+kubectl create cm testmap2 --from-file chapter9/envpod.yaml
 kubectl get pods cmvol
 kubectl exec cmvol -- ls /etc/name
 ```
@@ -520,25 +519,25 @@ spec:
 
 ### Command
 ```
-kubectl apply -f TheK8sBook/chapter10/rook-ceph-sc.yaml
-kubectl apply -f TheK8sBook/chapter10/headless-svc.yaml
+kubectl apply -f chapter10/rook-ceph-sc.yaml
+kubectl apply -f chapter10/headless-svc.yaml
 kubectl get svc
 kubectl describe svc dullahan
-kubectl apply -f TheK8sBook/chapter10/sts.yaml
+kubectl apply -f chapter10/sts.yaml
 kubectl get sts --watch
 kubectl get pvc
 kubectl get pods
 kubectl get svc
-kubectl apply -f TheK8sBook/chapter10/jump-pod.yaml 
+kubectl apply -f chapter10/jump-pod.yaml 
 kubectl exec -it jump-pod -- bash
 dig SRV dullahan.rook-ceph.svc.cluster.local
 exit
 # check scale down: edit replicas to 2
-kubectl apply -f TheK8sBook/chapter10/sts.yaml
+kubectl apply -f chapter10/sts.yaml
 kubectl get pvc
 kubectl get pods
 # check scale up: edit replicas to 3
-kubectl apply -f TheK8sBook/chapter10/sts.yaml
+kubectl apply -f chapter10/sts.yaml
 kubectl get pvc
 kubectl get pods
 ```
@@ -582,11 +581,11 @@ kubectl get pods
   - Configuration as code
   - Cryptographically signing images.
 !["the high-level image signing and verification process"](resources/images/figure12.3.png)
-- we looked at some of the workload isolation options that exist at different layers of the infrastructure stack:
+- We looked at some of the workload isolation options that exist at different layers of the infrastructure stack:
   - Cluster-level workload isolation
     - Namespaces and soft multi-tenancy
     - Namespaces and hard multi-tenancy
-  - Node isolation
+- Node isolation
   - Runtime isolation
     - Traditional namespaced containers
     - Use appropriate runtime classes
